@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 22
@@ -7,7 +7,6 @@ android {
 
 
     defaultConfig {
-        applicationId "a605152.example.com.myapplication"
         minSdkVersion 18
         targetSdkVersion 22
         versionCode 1
@@ -15,7 +14,16 @@ android {
     }
 }
 
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+    }
+}
+
+def AAVersion = '3.3.1'
 
 dependencies {
     compile project(':mylib')
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
 }
